@@ -1,0 +1,164 @@
+<div class="row">
+  <div class="col-sm-12" *ngIf="rol !== 'Consultor'">
+    <app-card cardTitle="Realizar una Transacción" blockClass="pc-component">
+      <blockquote class="blockquote text-left">
+        <p class="mb-0">Por favor, complete el siguiente formulario para realizar una transacción a un proyecto.</p>
+      </blockquote>
+
+      <form [formGroup]="projectForm" nz-form>
+        <div class="row">
+
+          <section class="col-md-12">
+            <nz-form-item>
+              <nz-form-label>Proyecto</nz-form-label>
+              <nz-form-control [nzSpan]="24">
+                <nz-select formControlName="projectId" nzPlaceHolder="Selecciona una opción">
+                  <nz-option *ngFor="let option of projectList" [nzLabel]="option.id_project 
+                  + ' - ' + option.client_name + ' - ' + option.project_year + ' - ' + option.type_mount"
+                    [nzValue]="option.id_project"></nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+          </section>
+
+          <section class="col-md-6">
+            <nz-form-item>
+              <nz-form-label>Tipo de Monto</nz-form-label>
+              <nz-form-control [nzSpan]="24">
+                <nz-select formControlName="type_mount" nzPlaceHolder="Selecciona una opción">
+                  <nz-option *ngFor="let option of type_mount" [nzLabel]="option.label"
+                    [nzValue]="option.value"></nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+          </section>
+
+          <section class="col-md-6">
+            <nz-form-item>
+              <nz-form-label>Valor Dólar</nz-form-label>
+              <nz-form-control nzHasFeedback [nzSpan]="24" [nzErrorTip]="nameErrorDolarValue">
+                <input nz-input formControlName="dolar_value" type="number" step="0.01" placeholder="0.00" required />
+                <ng-template #nameErrorDolarValue let-control>
+                  <ng-container *ngIf="control.hasError('required')">El Valor del dólar es obligatorio.</ng-container>
+                  <ng-container *ngIf="control.hasError('pattern')">El Monto solo debe contener
+                    números.</ng-container>
+                </ng-template>
+              </nz-form-control>
+            </nz-form-item>
+          </section>
+
+          <section class="col-md-6">
+            <nz-form-item>
+              <nz-form-label>Ingreso</nz-form-label>
+              <nz-form-control nzHasFeedback [nzSpan]="24" [nzErrorTip]="nameErrorEarning">
+                <input nz-input formControlName="earning" type="number" step="0.01" placeholder="0.00" required />
+                <ng-template #nameErrorEarning let-control>
+                  <ng-container *ngIf="control.hasError('required')">El Monto es obligatorio.</ng-container>
+                  <ng-container *ngIf="control.hasError('pattern')">El Monto solo debe contener
+                    números.</ng-container>
+                </ng-template>
+              </nz-form-control>
+            </nz-form-item>
+          </section>
+
+          <section class="col-md-6">
+            <nz-form-item>
+              <nz-form-label>Fecha de Transacción</nz-form-label>
+              <nz-form-control nzHasFeedback [nzSpan]="24" [nzErrorTip]="nameErrorEarningDate">
+                <input nz-input formControlName="earningDate" type="date" required />
+                <ng-template #nameErrorEarningDate let-control>
+                  <ng-container *ngIf="control.hasError('required')">La Fecha de Pago es
+                    obligatorio.</ng-container>
+                  <ng-container *ngIf="control.hasError('pattern')">La Fecha de Pago debe ser una fecha válida en
+                    formato Año-Mes-Día.</ng-container>
+                </ng-template>
+              </nz-form-control>
+            </nz-form-item>
+          </section>
+
+        </div>
+
+        <div class="col-md-12">
+          <nz-form-item>
+            <nz-form-control [nzSpan]="24">
+              <button type="button" class="btn btn-primary" (click)="onSubmit()">
+                <span nz-icon nzType="form"></span>
+                REGISTRAR
+              </button>
+              <button type="button" class="btn btn-danger" (click)="onClear()">
+                <span nz-icon nzType="delete"></span>
+                BORRAR
+              </button>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </form>
+    </app-card>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <app-card cardTitle="Buscador de Transacciones" blockClass="pc-component">
+      <nz-table #nzTable [nzData]="listOfDisplayData" nzTableLayout="fixed" nzNoResult="Sin resultados">
+        <thead>
+          <tr>
+            <th>
+              Código Transacción
+              <nz-filter-trigger [(nzVisible)]="visible" [nzActive]="searchValue.length > 0" [nzDropdownMenu]="menu">
+                <span nz-icon nzType="search"></span>
+              </nz-filter-trigger>
+            </th>
+            <th>
+              Tipo de Monto
+            </th>
+            <th>
+              Valor Dólar
+            </th>
+            <th>
+              Ingreso
+            </th>
+            <th>
+              Fecha de Transacción
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of nzTable.data">
+            <td>
+              <button nz-button nzType="primary" (click)="deleteEarning(data.id_earning)" nzDanger
+                *ngIf="rol !== 'Consultor'">
+                <span nz-icon nzType="delete"></span>
+              </button>
+              <button nz-button nzType="primary" (click)="editClient(data.id_earning)" *ngIf="rol !== 'Consultor'">
+                <span nz-icon nzType="edit"></span>
+              </button>
+              {{ data.id_earning }}
+            </td>
+            <td>
+              {{ data.type_mount }}
+            </td>
+            <td>
+              {{ data.dolar_value }}
+            </td>
+            <td>
+              {{ data.earning_mount }}
+            </td>
+            <td>
+              {{ data.date_earning | date: 'yyyy-MM-dd' }}
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+      <nz-dropdown-menu #menu="nzDropdownMenu">
+        <div class="ant-table-filter-dropdown">
+          <div class="search-box">
+            <input type="text" nz-input placeholder="Buscar Id" [(ngModel)]="searchValue" />
+            <button nz-button nzSize="small" nzType="primary" (click)="search()" class="search-button">Buscar</button>
+            <button nz-button nzSize="small" (click)="reset()">Borrar</button>
+          </div>
+        </div>
+      </nz-dropdown-menu>
+    </app-card>
+  </div>
+</div>

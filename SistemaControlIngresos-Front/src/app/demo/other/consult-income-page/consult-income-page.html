@@ -1,0 +1,409 @@
+<div class="row">
+  <div class="col-sm-12" *ngIf="rol !== 'Consultor'">
+    <app-card cardTitle="Realizar una Distribución de ingresos" blockClass="pc-component">
+      <blockquote class="blockquote text-left">
+        <p class="mb-0">Por favor, complete el siguiente formulario para realizar una distribución de ingresos a un
+          proyecto.</p>
+      </blockquote>
+      <form [formGroup]="projectForm" nz-form>
+        <div class="row">
+
+          <section class="col-md-12">
+            <nz-form-item>
+              <nz-form-label>Proyecto</nz-form-label>
+              <nz-form-control [nzSpan]="24">
+                <nz-select formControlName="projectId" nzPlaceHolder="Selecciona una opción">
+                  <nz-option *ngFor="let option of projectList" [nzLabel]="option.id_project 
+                  + ' - ' + option.client_name + ' - ' + option.project_year + ' - ' + option.type_mount"
+                    [nzValue]="option.id_project"></nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+          </section>
+
+          <section class="col-md-6">
+            <nz-form-item>
+              <nz-form-label>Monto Estimado</nz-form-label>
+              <nz-form-control [nzSpan]="24" [nzErrorTip]="nameEstimatedAmount">
+                <input nz-input formControlName="estimatedamount" type="number" step="0.01" placeholder="0.00"
+                  required />
+                <ng-template #nameEstimatedAmount let-control>
+                  <ng-container *ngIf="control.hasError('required')">El Monto Estimado es obligatorio.</ng-container>
+                  <ng-container *ngIf="control.hasError('pattern')">El Monto solo debe contener
+                    números.</ng-container>
+                </ng-template></nz-form-control>
+            </nz-form-item>
+          </section>
+
+          <section class="col-md-6">
+            <nz-form-item>
+              <nz-form-label>Horas</nz-form-label>
+              <nz-form-control nzHasFeedback [nzSpan]="24" [nzErrorTip]="nameEstimatedaMountPerHour">
+                <input nz-input formControlName="estimatedamountperhour" type="number" placeholder="0" required />
+                <ng-template #nameEstimatedaMountPerHour let-control>
+                  <ng-container *ngIf="control.hasError('required')">El Monto Estimado por Hora es
+                    obligatorio.</ng-container>
+                  <ng-container *ngIf="control.hasError('pattern')">El Monto solo debe contener
+                    números.</ng-container>
+                </ng-template>
+              </nz-form-control>
+            </nz-form-item>
+          </section>
+
+          <section class="col-md-6">
+            <nz-form-item>
+              <nz-form-label>Fecha</nz-form-label>
+              <nz-form-control nzHasFeedback [nzSpan]="24" [nzErrorTip]="nameErrorDateMonth">
+                <input nz-input formControlName="datemonth" type="month" required />
+                <ng-template #nameErrorDateMonth let-control>
+                  <ng-container *ngIf="control.hasError('required')">La Fecha es obligatoria.</ng-container>
+                  <ng-container *ngIf="control.hasError('pattern')">La Fecha solo debe contener números.</ng-container>
+                </ng-template>
+              </nz-form-control>
+            </nz-form-item>
+          </section>
+
+          <section class="col-md-6">
+            <nz-form-item>
+              <nz-form-label>Observaciones</nz-form-label>
+              <nz-form-control nzHasFeedback [nzSpan]="24">
+                <textarea nz-input formControlName="remarks" required rows="4"></textarea>
+              </nz-form-control>
+            </nz-form-item>
+          </section>
+
+        </div>
+
+        <div class="col-md-12">
+          <nz-form-item>
+            <nz-form-control [nzSpan]="24">
+              <button type="button" class="btn btn-primary" (click)="onSubmit()">
+                <span nz-icon nzType="form"></span>
+                REGISTRAR
+              </button>
+              <button type="button" class="btn btn-danger" (click)="onClear()">
+                <span nz-icon nzType="delete"></span>
+                BORRAR
+              </button>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </form>
+    </app-card>
+  </div>
+</div>
+
+<!-- <app-card cardTitle="Distribución de todos los ingresos" *ngIf="rol !== 'Consultor'">
+  <blockquote class="blockquote text-left">
+    <p class="mb-0">Realizar esta acción moverá todas las distribuciones de ingresos con estado (No pagado) un mes
+      adelante.
+      Favor asegurarse de esta acción porque no se puede devolver.
+    </p>
+  </blockquote>
+  <button type="button" class="btn btn-success" (click)="nuevoBotonAccion()">
+    <span nz-icon nzType="step-forward"></span> Mover distribuciones
+  </button>
+
+</app-card> -->
+
+<div class="row">
+  <div class="col-sm-12">
+    <app-card cardTitle="Buscador de Distribución de ingresos" blockClass="pc-component">
+
+
+      <form [formGroup]="reportIncome" nz-form *ngIf="rol !== 'Consultor'">
+        <div class="row">
+          <section class="col-md-6">
+            <nz-form-item>
+              <nz-form-label>Fecha Inicio</nz-form-label>
+              <nz-form-control nzHasFeedback [nzSpan]="24" [nzErrorTip]="nameErrorBeginDate">
+                <input nz-input formControlName="dateBegin" type="month" required />
+                <ng-template #nameErrorBeginDate let-control>
+                  <ng-container *ngIf="control.hasError('required')">La Fecha Inicio es obligatorio.</ng-container>
+                  <ng-container *ngIf="control.hasError('pattern')">La Fecha Inicio solo deben contener
+                    números.</ng-container>
+                </ng-template>
+              </nz-form-control>
+            </nz-form-item>
+          </section>
+          <section class="col-md-6">
+            <nz-form-item>
+              <nz-form-label>Fecha Fin</nz-form-label>
+              <nz-form-control nzHasFeedback [nzSpan]="24" [nzErrorTip]="nameErrorBeginDate">
+                <input nz-input formControlName="dateEnd" type="month" required />
+                <ng-template #nameErrorBeginDate let-control>
+                  <ng-container *ngIf="control.hasError('required')">La Fecha Inicio es obligatorio.</ng-container>
+                  <ng-container *ngIf="control.hasError('pattern')">La Fecha Inicio solo deben contener
+                    números.</ng-container>
+                </ng-template>
+              </nz-form-control>
+            </nz-form-item>
+          </section>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <nz-form-item>
+              <nz-form-control [nzSpan]="24">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div>
+                    <button type="button" class="btn btn-primary me-2" (click)="onConsult()">
+                      <span nz-icon nzType="search"></span>
+                      BUSCAR
+                    </button>
+                    <button type="button" class="btn btn-danger" (click)="onClear2()">
+                      <span nz-icon nzType="delete"></span>
+                      LIMPIAR
+                    </button>
+                  </div>
+                  <div>
+                    <button id="exportButton" nz-dropdown [nzDropdownMenu]="menu0" type="button"
+                      class="btn btn-primary">
+                      <span nz-icon nzType="export"></span>
+                      EXPORTAR
+                    </button>
+                    <nz-dropdown-menu #menu0="nzDropdownMenu">
+                      <ul nz-menu>
+                        <li nz-menu-item (click)="exportOption(1,'PDF')">Exportar como PDF</li>
+                        <li nz-menu-item (click)="exportOption(1,'Excel')">Exportar como Excel</li>
+                      </ul>
+                    </nz-dropdown-menu>
+                  </div>
+                </div>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+
+      </form>
+
+      <nz-table #nzTable [nzData]="listOfDisplayData" nzTableLayout="fixed" nzNoResult="Sin resultados">
+        <thead>
+          <tr>
+            <th>
+              Código Distribución
+              <nz-filter-trigger [(nzVisible)]="visible" [nzActive]="searchValue.length > 0" [nzDropdownMenu]="menu">
+                <span nz-icon nzType="search"></span>
+              </nz-filter-trigger>
+            </th>
+            <th>
+              Monto Estimado
+            </th>
+            <th>
+              Horas
+            </th>
+            <th>
+              Fecha
+            </th>
+            <th>
+              Observaciones
+            </th>
+            <th>
+              Estado
+            </th>
+            <th>
+              Código de Proyecto
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of nzTable.data">
+            <td>
+              <button nz-button nzType="primary" (click)="deleteEarning(data.incomeid)" nzDanger
+                *ngIf="rol !== 'Consultor'">
+                <span nz-icon nzType="delete"></span>
+              </button>
+              <button nz-button nzType="primary" (click)="editClient(data.incomeid)" *ngIf="rol !== 'Consultor'">
+                <span nz-icon nzType="edit"></span>
+              </button>
+              {{ data.incomeid }}
+            </td>
+            <td>
+              {{ data.estimatedamount }}
+            </td>
+            <td>
+              {{ data.estimatedamountperhour }}
+            </td>
+            <td>
+              {{ formatearFecha(data.datemonth)}}
+            </td>
+            <td>
+              {{ data.remarks }}
+            </td>
+            <td>
+              {{ data.status }}
+            </td>
+            <td>
+              {{ data.projectid }}
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+      <nz-dropdown-menu #menu="nzDropdownMenu">
+        <div class="ant-table-filter-dropdown">
+          <div class="search-box">
+            <input type="text" nz-input placeholder="Buscar Id" [(ngModel)]="searchValue" />
+            <button nz-button nzSize="small" nzType="primary" (click)="search()" class="search-button">Buscar</button>
+            <button nz-button nzSize="small" (click)="reset()">Borrar</button>
+          </div>
+        </div>
+      </nz-dropdown-menu>
+    </app-card>
+  </div>
+
+
+
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <app-card cardTitle="Reporte de Distribución de ingresos" blockClass="pc-component">
+      <form [formGroup]="report2" nz-form *ngIf="rol !== 'Consultor'">
+        <div class="row">
+          <section class="col-md-12">
+            <nz-form-item>
+              <nz-form-label>Proyecto</nz-form-label>
+              <nz-form-control [nzSpan]="24">
+                <nz-select formControlName="projectId" nzPlaceHolder="Selecciona una opción">
+                  <nz-option *ngFor="let option of projectList" [nzLabel]="option.id_project 
+                  + ' - ' + option.client_name + ' - ' + option.project_year + ' - ' + option.type_mount"
+                    [nzValue]="option.id_project"></nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+          </section>
+
+          <section class="col-md-6">
+            <nz-form-item>
+              <nz-form-label>Fecha Inicio</nz-form-label>
+              <nz-form-control nzHasFeedback [nzSpan]="24" [nzErrorTip]="nameErrorBeginDate">
+                <input nz-input formControlName="dateBegin" type="month" required />
+                <ng-template #nameErrorBeginDate let-control>
+                  <ng-container *ngIf="control.hasError('required')">La Fecha Inicio es obligatorio.</ng-container>
+                  <ng-container *ngIf="control.hasError('pattern')">La Fecha Inicio solo deben contener
+                    números.</ng-container>
+                </ng-template>
+              </nz-form-control>
+            </nz-form-item>
+          </section>
+          <section class="col-md-6">
+            <nz-form-item>
+              <nz-form-label>Fecha Fin</nz-form-label>
+              <nz-form-control nzHasFeedback [nzSpan]="24" [nzErrorTip]="nameErrorBeginDate">
+                <input nz-input formControlName="dateEnd" type="month" required />
+                <ng-template #nameErrorBeginDate let-control>
+                  <ng-container *ngIf="control.hasError('required')">La Fecha Inicio es obligatorio.</ng-container>
+                  <ng-container *ngIf="control.hasError('pattern')">La Fecha Inicio solo deben contener
+                    números.</ng-container>
+                </ng-template>
+              </nz-form-control>
+            </nz-form-item>
+          </section>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <nz-form-item>
+              <nz-form-control [nzSpan]="24">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div>
+                    <button type="button" class="btn btn-primary me-2" (click)="onConsult2()">
+                      <span nz-icon nzType="search"></span>
+                      BUSCAR
+                    </button>
+                    <button type="button" class="btn btn-danger" (click)="onClear3()">
+                      <span nz-icon nzType="delete"></span>
+                      LIMPIAR
+                    </button>
+                  </div>
+                  <div>
+                    <button id="exportButton" nz-dropdown [nzDropdownMenu]="menu0" type="button"
+                      class="btn btn-primary">
+                      <span nz-icon nzType="export"></span>
+                      EXPORTAR
+                    </button>
+                    <nz-dropdown-menu #menu0="nzDropdownMenu">
+                      <ul nz-menu>
+                        <li nz-menu-item (click)="exportOption(2,'PDF')">Exportar como PDF</li>
+                        <li nz-menu-item (click)="exportOption(2,'Excel')">Exportar como Excel</li>
+                      </ul>
+                    </nz-dropdown-menu>
+                  </div>
+                </div>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+
+      </form>
+
+      <nz-table #nzTable3 [nzData]="listOfDisplayData3" nzTableLayout="fixed" nzNoResult="Sin resultados">
+        <thead>
+          <tr>
+            <th>
+              Código Distribución
+              <nz-filter-trigger [(nzVisible)]="visible" [nzActive]="searchValue.length > 0" [nzDropdownMenu]="menu">
+                <span nz-icon nzType="search"></span>
+              </nz-filter-trigger>
+            </th>
+            <th>
+              Monto Estimado
+            </th>
+            <th>
+              Horas
+            </th>
+            <th>
+              Fecha
+            </th>
+            <th>
+              Observaciones
+            </th>
+            <th>
+              Estado
+            </th>
+            <th>
+              Código de Proyecto
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of nzTable3.data">
+            <td>
+              {{ data.incomeid }}
+            </td>
+            <td>
+              {{ data.estimatedamount }}
+            </td>
+            <td>
+              {{ data.estimatedamountperhour }}
+            </td>
+            <td>
+              {{ formatearFecha(data.datemonth)}}
+            </td>
+            <td>
+              {{ data.remarks }}
+            </td>
+            <td>
+              {{ data.status }}
+            </td>
+            <td>
+              {{ data.projectid }}
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+      <nz-dropdown-menu #menu="nzDropdownMenu">
+        <div class="ant-table-filter-dropdown">
+          <div class="search-box">
+            <input type="text" nz-input placeholder="Buscar Id" [(ngModel)]="searchValue" />
+            <button nz-button nzSize="small" nzType="primary" (click)="search()" class="search-button">Buscar</button>
+            <button nz-button nzSize="small" (click)="reset()">Borrar</button>
+          </div>
+        </div>
+      </nz-dropdown-menu>
+    </app-card>
+  </div>
+
+
+
+</div>

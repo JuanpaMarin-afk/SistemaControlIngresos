@@ -1,0 +1,1126 @@
+<div class="row">
+
+  <div class="col-md-6 col-xl-6">
+    <app-card cardTitle="Ingresos en Colones" blockClass="pc-component">
+      <form [formGroup]="reportColones" nz-form>
+        <div class="row">
+          <section class="col-md-6">
+            <nz-form-item>
+              <nz-form-label>Fecha Inicio</nz-form-label>
+              <nz-form-control nzHasFeedback [nzSpan]="24" [nzErrorTip]="nameErrorBeginDate">
+                <input nz-input formControlName="dateBegin" type="date" required />
+                <ng-template #nameErrorBeginDate let-control>
+                  <ng-container *ngIf="control.hasError('required')">La Fecha Inicio es obligatorio.</ng-container>
+                  <ng-container *ngIf="control.hasError('pattern')">La Fecha Inicio solo deben contener
+                    números.</ng-container>
+                </ng-template>
+              </nz-form-control>
+            </nz-form-item>
+          </section>
+          <section class="col-md-6">
+            <nz-form-item>
+              <nz-form-label>Fecha Fin</nz-form-label>
+              <nz-form-control nzHasFeedback [nzSpan]="24" [nzErrorTip]="nameErrorBeginDate">
+                <input nz-input formControlName="dateEnd" type="date" required />
+                <ng-template #nameErrorBeginDate let-control>
+                  <ng-container *ngIf="control.hasError('required')">La Fecha Inicio es obligatorio.</ng-container>
+                  <ng-container *ngIf="control.hasError('pattern')">La Fecha Inicio solo deben contener
+                    números.</ng-container>
+                </ng-template>
+              </nz-form-control>
+            </nz-form-item>
+          </section>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <nz-form-item>
+              <nz-form-control [nzSpan]="24">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div>
+                    <button type="button" class="btn btn-primary me-2" (click)="onSubmitColones()">
+                      <span nz-icon nzType="search"></span>
+                      BUSCAR
+                    </button>
+                    <button type="button" class="btn btn-danger" (click)="onClearColones()">
+                      <span nz-icon nzType="delete"></span>
+                      LIMPIAR
+                    </button>
+                  </div>
+                  <div>
+                    <button id="exportButton" nz-dropdown [nzDropdownMenu]="menu0" type="button"
+                      class="btn btn-primary">
+                      <span nz-icon nzType="export"></span>
+                      EXPORTAR
+                    </button>
+                    <nz-dropdown-menu #menu0="nzDropdownMenu">
+                      <ul nz-menu>
+                        <li nz-menu-item (click)="exportOption(1,'PDF')">Exportar como PDF</li>
+                        <li nz-menu-item (click)="exportOption(1,'Excel')">Exportar como Excel</li>
+                      </ul>
+                    </nz-dropdown-menu>
+                  </div>
+                </div>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+
+      </form>
+
+      <nz-table #nzTableColones [nzData]="listOfDataColones" nzTableLayout="fixed" nzNoResult="Sin resultados">
+        <thead>
+          <tr>
+            <th style="text-align: center;">
+              Ingreso
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of nzTableColones.data">
+            <td style="text-align: center;">
+              {{ data.total_Ingresos_Colones != null ? (data.total_Ingresos_Colones | currency:'CRC ':'symbol':'1.0-0')
+              :
+              'No se encuentran registrados
+              ingresos en estas
+              fechas' }}
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </app-card>
+  </div>
+
+  <div class="col-md-6 col-xl-6">
+    <app-card cardTitle="Ingresos en Dólares" blockClass="pc-component">
+      <form [formGroup]="reportDolares" nz-form>
+        <div class="row">
+          <section class="col-md-6">
+            <nz-form-item>
+              <nz-form-label>Fecha Inicio</nz-form-label>
+              <nz-form-control nzHasFeedback [nzSpan]="24" [nzErrorTip]="nameErrorBeginDate">
+                <input nz-input formControlName="dateBegin" type="date" required />
+                <ng-template #nameErrorBeginDate let-control>
+                  <ng-container *ngIf="control.hasError('required')">La Fecha Inicio es obligatorio.</ng-container>
+                  <ng-container *ngIf="control.hasError('pattern')">La Fecha Inicio solo deben contener
+                    números.</ng-container>
+                </ng-template>
+              </nz-form-control>
+            </nz-form-item>
+          </section>
+          <section class="col-md-6">
+            <nz-form-item>
+              <nz-form-label>Fecha Fin</nz-form-label>
+              <nz-form-control nzHasFeedback [nzSpan]="24" [nzErrorTip]="nameErrorBeginDate">
+                <input nz-input formControlName="dateEnd" type="date" required />
+                <ng-template #nameErrorBeginDate let-control>
+                  <ng-container *ngIf="control.hasError('required')">La Fecha Inicio es obligatorio.</ng-container>
+                  <ng-container *ngIf="control.hasError('pattern')">La Fecha Inicio solo deben contener
+                    números.</ng-container>
+                </ng-template>
+              </nz-form-control>
+            </nz-form-item>
+          </section>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <nz-form-item>
+              <nz-form-control [nzSpan]="24">
+                <div class="d-flex justify-content-between align-items-center">
+                  <!-- Botones BUSCAR y LIMPIAR alineados a la izquierda -->
+                  <div>
+                    <button type="button" class="btn btn-primary me-2" (click)="onSubmitDolares()">
+                      <span nz-icon nzType="search"></span>
+                      BUSCAR
+                    </button>
+                    <button type="button" class="btn btn-danger" (click)="onClearDolares()">
+                      <span nz-icon nzType="delete"></span>
+                      LIMPIAR
+                    </button>
+                  </div>
+                  <!-- Botón EXPORTAR alineado a la derecha -->
+                  <div>
+                    <button id="exportButton" nz-dropdown [nzDropdownMenu]="menu2" type="button"
+                      class="btn btn-primary">
+                      <span nz-icon nzType="export"></span>
+                      EXPORTAR
+                    </button>
+                    <nz-dropdown-menu #menu2="nzDropdownMenu">
+                      <ul nz-menu>
+                        <li nz-menu-item (click)="exportOption(2,'PDF')">Exportar como PDF</li>
+                        <li nz-menu-item (click)="exportOption(2,'Excel')">Exportar como Excel</li>
+                      </ul>
+                    </nz-dropdown-menu>
+                  </div>
+                </div>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+
+      </form>
+
+      <nz-table #nzTableDolares [nzData]="listOfDataDolares" nzTableLayout="fixed" nzNoResult="Sin resultados">
+        <thead>
+          <tr>
+            <th style="text-align: center;">
+              Ingreso
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of nzTableDolares.data">
+            <td style="text-align: center;">
+              {{ data.total_Ingresos_Dolares != null ? (data.total_Ingresos_Dolares | currency:'USD':'symbol':'1.0-0') :
+              'No se encuentran registrados ingresos en estas fechas' }}
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </app-card>
+  </div>
+
+  <div class="col-md-6 col-xl-6">
+    <app-card cardTitle="Ingresos Consolidado a Colones" blockClass="pc-component">
+      <form [formGroup]="reportConsolidado" nz-form>
+        <div class="row">
+          <section class="col-md-6">
+            <nz-form-item>
+              <nz-form-label>Fecha Inicio</nz-form-label>
+              <nz-form-control nzHasFeedback [nzSpan]="24" [nzErrorTip]="nameErrorBeginDate">
+                <input nz-input formControlName="dateBegin" type="date" required />
+                <ng-template #nameErrorBeginDate let-control>
+                  <ng-container *ngIf="control.hasError('required')">La Fecha Inicio es obligatorio.</ng-container>
+                  <ng-container *ngIf="control.hasError('pattern')">La Fecha Inicio solo deben contener
+                    números.</ng-container>
+                </ng-template>
+              </nz-form-control>
+            </nz-form-item>
+          </section>
+          <section class="col-md-6">
+            <nz-form-item>
+              <nz-form-label>Fecha Fin</nz-form-label>
+              <nz-form-control nzHasFeedback [nzSpan]="24" [nzErrorTip]="nameErrorBeginDate">
+                <input nz-input formControlName="dateEnd" type="date" required />
+                <ng-template #nameErrorBeginDate let-control>
+                  <ng-container *ngIf="control.hasError('required')">La Fecha Inicio es obligatorio.</ng-container>
+                  <ng-container *ngIf="control.hasError('pattern')">La Fecha Inicio solo deben contener
+                    números.</ng-container>
+                </ng-template>
+              </nz-form-control>
+            </nz-form-item>
+          </section>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <nz-form-item>
+              <nz-form-control [nzSpan]="24">
+                <div class="d-flex justify-content-between align-items-center">
+                  <!-- Botones BUSCAR y LIMPIAR alineados a la izquierda -->
+                  <div>
+                    <button type="button" class="btn btn-primary me-2" (click)="onSubmitConsolidado()">
+                      <span nz-icon nzType="search"></span>
+                      BUSCAR
+                    </button>
+                    <button type="button" class="btn btn-danger" (click)="onClearConsolidado()">
+                      <span nz-icon nzType="delete"></span>
+                      LIMPIAR
+                    </button>
+                  </div>
+                  <!-- Botón EXPORTAR alineado a la derecha -->
+                  <div>
+                    <button id="exportButton" nz-dropdown [nzDropdownMenu]="menu3" type="button"
+                      class="btn btn-primary">
+                      <span nz-icon nzType="export"></span>
+                      EXPORTAR
+                    </button>
+                    <nz-dropdown-menu #menu3="nzDropdownMenu">
+                      <ul nz-menu>
+                        <li nz-menu-item (click)="exportOption(3,'PDF')">Exportar como PDF</li>
+                        <li nz-menu-item (click)="exportOption(3,'Excel')">Exportar como Excel</li>
+                      </ul>
+                    </nz-dropdown-menu>
+                  </div>
+                </div>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+      </form>
+
+      <nz-table #nzTableConsolidado [nzData]="listOfDataConsolidado" nzTableLayout="fixed" nzNoResult="Sin resultados">
+        <thead>
+          <tr>
+            <th style="text-align: center;">
+              Ingreso
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of nzTableConsolidado.data">
+            <td style="text-align: center;">
+              {{ data.total_Ingresos_Consolidados_Colones != null ? (data.total_Ingresos_Consolidados_Colones |
+              currency:'CRC ':'symbol':'1.0-0')
+              :
+              'No se encuentran registrados
+              ingresos en estas
+              fechas' }}
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+
+    </app-card>
+  </div>
+
+  <div class="col-md-6 col-xl-6">
+    <app-card cardTitle="Reporte Control Por Cliente" blockClass="pc-component">
+      <form [formGroup]="reportControl" nz-form>
+        <div class="row">
+          <section class="col-md-6">
+            <nz-form-item>
+              <nz-form-label>Fecha Inicio</nz-form-label>
+              <nz-form-control nzHasFeedback [nzSpan]="24" [nzErrorTip]="nameErrorBeginDate">
+                <input nz-input formControlName="dateBegin" type="date" required />
+                <ng-template #nameErrorBeginDate let-control>
+                  <ng-container *ngIf="control.hasError('required')">La Fecha Inicio es obligatorio.</ng-container>
+                  <ng-container *ngIf="control.hasError('pattern')">La Fecha Inicio solo deben contener
+                    números.</ng-container>
+                </ng-template>
+              </nz-form-control>
+            </nz-form-item>
+          </section>
+          <section class="col-md-6">
+            <nz-form-item>
+              <nz-form-label>Fecha Fin</nz-form-label>
+              <nz-form-control nzHasFeedback [nzSpan]="24" [nzErrorTip]="nameErrorBeginDate">
+                <input nz-input formControlName="dateEnd" type="date" required />
+                <ng-template #nameErrorBeginDate let-control>
+                  <ng-container *ngIf="control.hasError('required')">La Fecha Inicio es obligatorio.</ng-container>
+                  <ng-container *ngIf="control.hasError('pattern')">La Fecha Inicio solo deben contener
+                    números.</ng-container>
+                </ng-template>
+              </nz-form-control>
+            </nz-form-item>
+          </section>
+
+
+          <section class="col-md-6">
+            <nz-form-item>
+              <nz-form-label>Cliente</nz-form-label>
+              <nz-form-control [nzSpan]="24">
+                <nz-select formControlName="clientId" nzPlaceHolder="Selecciona una opción"
+                  [nzNotFoundContent]="'Sin resultados'">
+                  <nz-option *ngFor="let option of clientList" [nzLabel]="option.name"
+                    [nzValue]="option.id_client"></nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+          </section>
+
+          <section class="col-md-6">
+            <nz-form-item>
+              <nz-form-label>Año</nz-form-label>
+              <nz-form-control nzHasFeedback [nzSpan]="24" [nzErrorTip]="nameErrorproject_year">
+                <input nz-input formControlName="year" type="number" min="1900" max="2100" required />
+                <ng-template #nameErrorproject_year let-control>
+                  <ng-container *ngIf="control.hasError('required')">El Año es obligatorio.</ng-container>
+                  <ng-container *ngIf="control.hasError('pattern')">El Año solo debe contener
+                    números.</ng-container>
+                </ng-template>
+              </nz-form-control>
+            </nz-form-item>
+          </section>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <nz-form-item>
+              <nz-form-control [nzSpan]="24">
+                <div class="d-flex justify-content-between align-items-center">
+                  <!-- Botones BUSCAR y LIMPIAR alineados a la izquierda -->
+                  <div>
+                    <button type="button" class="btn btn-primary me-2" (click)="onSubmitControl()">
+                      <span nz-icon nzType="search"></span>
+                      BUSCAR
+                    </button>
+                    <button type="button" class="btn btn-danger" (click)="onClearControl()">
+                      <span nz-icon nzType="delete"></span>
+                      LIMPIAR
+                    </button>
+                  </div>
+                  <!-- Botón EXPORTAR alineado a la derecha -->
+                  <div>
+                    <button id="exportButton" nz-dropdown [nzDropdownMenu]="menu4" type="button"
+                      class="btn btn-primary">
+                      <span nz-icon nzType="export"></span>
+                      EXPORTAR
+                    </button>
+                    <nz-dropdown-menu #menu4="nzDropdownMenu">
+                      <ul nz-menu>
+                        <li nz-menu-item (click)="exportOption(4,'PDF')">Exportar como PDF</li>
+                        <li nz-menu-item (click)="exportOption(4,'Excel')">Exportar como Excel</li>
+                      </ul>
+                    </nz-dropdown-menu>
+                  </div>
+                </div>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+
+      </form>
+
+      <nz-table #nzTableControl [nzData]="listOfDataControl" nzTableLayout="fixed" nzNoResult="Sin resultados">
+        <thead>
+          <tr>
+            <th style="text-align: center;">
+              Ingreso Total
+            </th>
+            <th style="text-align: center;">
+              Ingreso Monto Faltante
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of nzTableControl.data">
+            <td style="text-align: center;">
+              {{ data.total_Ingresos != null ? (data.total_Ingresos | currency:'':'':'1.0-0') : 'No se
+              encuentran registrados ingresos en estas fechas' }}
+            </td>
+            <td style="text-align: center;">
+              {{ data.monto_Faltante != null ? (data.monto_Faltante | currency:'':'':'1.0-0') : 'No se
+              encuentran registrados ingresos en estas fechas' }}
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </app-card>
+  </div>
+
+  <app-card cardTitle="Reporte Control Clientes" blockClass="pc-component">
+    <form [formGroup]="reportControlClients" nz-form>
+      <div class="row">
+        <section class="col-md-6">
+          <nz-form-item>
+            <nz-form-label>Fecha Inicio</nz-form-label>
+            <nz-form-control nzHasFeedback [nzSpan]="24" [nzErrorTip]="nameErrorBeginDate">
+              <input nz-input formControlName="dateBegin" type="date" required />
+              <ng-template #nameErrorBeginDate let-control>
+                <ng-container *ngIf="control.hasError('required')">La Fecha Inicio es obligatorio.</ng-container>
+                <ng-container *ngIf="control.hasError('pattern')">La Fecha Inicio solo deben contener
+                  números.</ng-container>
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+        </section>
+        <section class="col-md-6">
+          <nz-form-item>
+            <nz-form-label>Fecha Fin</nz-form-label>
+            <nz-form-control nzHasFeedback [nzSpan]="24" [nzErrorTip]="nameErrorBeginDate">
+              <input nz-input formControlName="dateEnd" type="date" required />
+              <ng-template #nameErrorBeginDate let-control>
+                <ng-container *ngIf="control.hasError('required')">La Fecha Inicio es obligatorio.</ng-container>
+                <ng-container *ngIf="control.hasError('pattern')">La Fecha Inicio solo deben contener
+                  números.</ng-container>
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+        </section>
+        <section class="col-md-6">
+          <nz-form-item>
+            <nz-form-label>Año</nz-form-label>
+            <nz-form-control nzHasFeedback [nzSpan]="24" [nzErrorTip]="nameErrorproject_year">
+              <input nz-input formControlName="year" type="number" min="1900" max="2100" required />
+              <ng-template #nameErrorproject_year let-control>
+                <ng-container *ngIf="control.hasError('required')">El Año es obligatorio.</ng-container>
+                <ng-container *ngIf="control.hasError('pattern')">El Año solo debe contener
+                  números.</ng-container>
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+        </section>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <nz-form-item>
+            <nz-form-control [nzSpan]="24">
+              <div class="d-flex justify-content-between align-items-center">
+                <!-- Botones BUSCAR y LIMPIAR alineados a la izquierda -->
+                <div>
+                  <button type="button" class="btn btn-primary me-2" (click)="onSubmitControlClients()">
+                    <span nz-icon nzType="search"></span>
+                    BUSCAR
+                  </button>
+                  <button type="button" class="btn btn-danger" (click)="onClearControlClients()">
+                    <span nz-icon nzType="delete"></span>
+                    LIMPIAR
+                  </button>
+                </div>
+                <!-- Botón EXPORTAR alineado a la derecha -->
+                <div>
+                  <button id="exportButton" nz-dropdown [nzDropdownMenu]="menu8" type="button" class="btn btn-primary">
+                    <span nz-icon nzType="export"></span>
+                    EXPORTAR
+                  </button>
+                  <nz-dropdown-menu #menu8="nzDropdownMenu">
+                    <ul nz-menu>
+                      <li nz-menu-item (click)="exportOption(8,'PDF')">Exportar como PDF</li>
+                      <li nz-menu-item (click)="exportOption(8,'Excel')">Exportar como Excel</li>
+                    </ul>
+                  </nz-dropdown-menu>
+                </div>
+              </div>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+
+    </form>
+
+    <nz-table #nzTableControl2 [nzData]="listOfDataControlClients" nzTableLayout="fixed" nzNoResult="Sin resultados">
+      <thead>
+        <tr>
+          <th style="text-align: center;">
+            Cliente
+          </th>
+          <th style="text-align: center;">
+            Ingreso Total
+          </th>
+          <th style="text-align: center;">
+            Ingreso Monto Faltante
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of nzTableControl2.data">
+          <td style="text-align: center;">
+            {{ data.name }}
+          </td>
+          <td style="text-align: center;">
+            {{ data.total_Ingresos != null ? (data.total_Ingresos | currency:'':'':'1.0-0') : 'No se
+            encuentran registrados ingresos en estas fechas' }}
+          </td>
+          <td style="text-align: center;">
+            {{ data.monto_Faltante != null ? (data.monto_Faltante | currency:'':'':'1.0-0') : 'No se
+            encuentran registrados ingresos en estas fechas' }}
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+
+  </app-card>
+
+  <app-card cardTitle="Reporte de Estado de Proyectos Facturados" blockClass="pc-component">
+    <form [formGroup]="reportPay" nz-form>
+      <div class="row">
+        <section class="col-md-6">
+          <nz-form-item>
+            <nz-form-label>Estado</nz-form-label>
+            <nz-form-control [nzSpan]="24">
+              <nz-select formControlName="status" nzPlaceHolder="Selecciona una opción">
+                <nz-option *ngFor="let option of payment" [nzLabel]="option.label" [nzValue]="option.value"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </section>
+        <section class="col-md-6">
+          <nz-form-item>
+            <nz-form-label>Año</nz-form-label>
+            <nz-form-control nzHasFeedback [nzSpan]="24" [nzErrorTip]="nameErrorproject_year">
+              <input nz-input formControlName="year" type="number" min="1900" max="2100" required />
+              <ng-template #nameErrorproject_year let-control>
+                <ng-container *ngIf="control.hasError('required')">El Año es obligatorio.</ng-container>
+                <ng-container *ngIf="control.hasError('pattern')">El Año solo debe contener
+                  números.</ng-container>
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+        </section>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <nz-form-item>
+            <nz-form-control [nzSpan]="24">
+              <div class="d-flex justify-content-between align-items-center">
+                <!-- Botones BUSCAR y LIMPIAR alineados a la izquierda -->
+                <div>
+                  <button type="button" class="btn btn-primary me-2" (click)="onSubmit2()">
+                    <span nz-icon nzType="search"></span>
+                    BUSCAR
+                  </button>
+                  <button type="button" class="btn btn-danger" (click)="onClear2()">
+                    <span nz-icon nzType="delete"></span>
+                    LIMPIAR
+                  </button>
+                </div>
+                <!-- Botón EXPORTAR alineado a la derecha -->
+                <div>
+                  <button id="exportButton" nz-dropdown [nzDropdownMenu]="menu5" type="button" class="btn btn-primary">
+                    <span nz-icon nzType="export"></span>
+                    EXPORTAR
+                  </button>
+                  <nz-dropdown-menu #menu5="nzDropdownMenu">
+                    <ul nz-menu>
+                      <li nz-menu-item (click)="exportOption(5,'PDF')">Exportar como PDF</li>
+                      <li nz-menu-item (click)="exportOption(5,'Excel')">Exportar como Excel</li>
+                    </ul>
+                  </nz-dropdown-menu>
+                </div>
+              </div>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+
+    </form>
+    <nz-table #nzTable [nzData]="listOfDisplayData2" nzTableLayout="fixed" nzNoResult="Sin resultados">
+      <thead>
+        <tr>
+          <th>
+            Id Proyecto
+          </th>
+          <th>
+            Cliente
+          </th>
+          <th>
+            Tipo de Trabajo
+          </th>
+          <th>
+            Monto de Contrato
+          </th>
+          <th>Monto Total Ingresos
+          </th>
+          <th>
+            Tipo de Monto
+          </th>
+          <th>
+            Fecha Inicio
+          </th>
+          <th>
+            Fecha Fin
+          </th>
+          <th>
+            Fecha de Pago
+          </th>
+          <th>
+            Fecha de Aprobación
+          </th>
+          <th>
+            Facturado
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of nzTable.data">
+          <td>
+            {{ data.iD_PROJECT }}
+          </td>
+          <td>
+            {{ data.clienT_NAME }}
+          </td>
+          <td>
+            {{ data.typE_WORK_NAME }}
+          </td>
+          <td>
+            {{ data.contracT_MOUNT }}
+          </td>
+          <td>
+            {{ data.totaL_EARNINGS }}
+          </td>
+          <td>
+            {{ data.typE_MOUNT }}
+          </td>
+          <td>
+            {{ data.datE_BEGIN | date: 'yyyy-MM-dd' }}
+          </td>
+          <td>
+            {{ data.datE_END | date: 'yyyy-MM-dd' }}
+          </td>
+          <td>
+            {{ data.datE_EARNING | date: 'yyyy-MM-dd' }}
+          </td>
+          <td>
+            {{ data.datE_APROBATION | date: 'yyyy-MM-dd' }}
+          </td>
+          <td>
+            {{ data.pagado }}
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+
+  </app-card>
+
+  <app-card cardTitle="Reporte de Estado de Proyectos Meses" blockClass="pc-component">
+    <form [formGroup]="reportMonth" nz-form>
+      <div class="row">
+        <section class="col-md-6">
+          <nz-form-item>
+            <nz-form-label>Fecha Inicio</nz-form-label>
+            <nz-form-control nzHasFeedback [nzSpan]="24" [nzErrorTip]="nameErrorBeginDate">
+              <input nz-input formControlName="dateBegin" type="date" required />
+              <ng-template #nameErrorBeginDate let-control>
+                <ng-container *ngIf="control.hasError('required')">La Fecha Inicio es obligatorio.</ng-container>
+                <ng-container *ngIf="control.hasError('pattern')">La Fecha Inicio solo deben contener
+                  números.</ng-container>
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+        </section>
+        <section class="col-md-6">
+          <nz-form-item>
+            <nz-form-label>Fecha Fin</nz-form-label>
+            <nz-form-control nzHasFeedback [nzSpan]="24" [nzErrorTip]="nameErrorBeginDate">
+              <input nz-input formControlName="dateEnd" type="date" required />
+              <ng-template #nameErrorBeginDate let-control>
+                <ng-container *ngIf="control.hasError('required')">La Fecha Inicio es obligatorio.</ng-container>
+                <ng-container *ngIf="control.hasError('pattern')">La Fecha Inicio solo deben contener
+                  números.</ng-container>
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+        </section>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <nz-form-item>
+            <nz-form-control [nzSpan]="24">
+              <div class="d-flex justify-content-between align-items-center">
+                <!-- Botones BUSCAR y LIMPIAR alineados a la izquierda -->
+                <div>
+                  <button type="button" class="btn btn-primary me-2" (click)="onSubmit()">
+                    <span nz-icon nzType="search"></span>
+                    BUSCAR
+                  </button>
+                  <button type="button" class="btn btn-danger" (click)="onClear()">
+                    <span nz-icon nzType="delete"></span>
+                    LIMPIAR
+                  </button>
+                </div>
+                <!-- Botón EXPORTAR alineado a la derecha -->
+                <div>
+                  <button id="exportButton" nz-dropdown [nzDropdownMenu]="menu6" type="button" class="btn btn-primary">
+                    <span nz-icon nzType="export"></span>
+                    EXPORTAR
+                  </button>
+                  <nz-dropdown-menu #menu6="nzDropdownMenu">
+                    <ul nz-menu>
+                      <li nz-menu-item (click)="exportOption(6,'PDF')">Exportar como PDF</li>
+                      <li nz-menu-item (click)="exportOption(6,'Excel')">Exportar como Excel</li>
+                    </ul>
+                  </nz-dropdown-menu>
+                </div>
+              </div>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+    </form>
+    <nz-table #nzTable2 [nzData]="listOfDisplayData" nzTableLayout="fixed" nzNoResult="Sin resultados">
+      <thead>
+        <tr>
+          <th>
+            Id Proyecto
+          </th>
+          <th>
+            Cliente
+          </th>
+          <th>
+            Tipo de Trabajo
+          </th>
+          <th>
+            Monto de Contrato
+          </th>
+          <th>
+            Monto Total Ingresos
+          </th>
+          <th>
+            Tipo de Monto
+          </th>
+          <th>
+            Fecha Inicio
+          </th>
+          <th>
+            Fecha Fin
+          </th>
+          <th>
+            Fecha de Pago
+          </th>
+          <th>
+            Fecha de Aprobación
+          </th>
+          <th>
+            Facturado
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of nzTable2.data">
+          <td>
+            {{ data.iD_PROJECT }}
+          </td>
+          <td>
+            {{ data.clienT_NAME }}
+          </td>
+          <td>
+            {{ data.typE_WORK_NAME }}
+          </td>
+          <td>
+            {{ data.contracT_MOUNT }}
+          </td>
+          <td>
+            {{ data.totaL_EARNINGS }}
+          </td>
+          <td>
+            {{ data.typE_MOUNT }}
+          </td>
+          <td>
+            {{ data.datE_BEGIN | date: 'yyyy-MM-dd' }}
+          </td>
+          <td>
+            {{ data.datE_END | date: 'yyyy-MM-dd' }}
+          </td>
+          <td>
+            {{ data.datE_EARNING | date: 'yyyy-MM-dd' }}
+          </td>
+          <td>
+            {{ data.datE_APROBATION | date: 'yyyy-MM-dd' }}
+          </td>
+          <td>
+            {{ data.pagado }}
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+
+  </app-card>
+
+  <app-card cardTitle="Reporte de Estado de Proyectos Cliente y Tipo de Trabajo" blockClass="pc-component">
+    <form [formGroup]="report3" nz-form>
+      <div class="row">
+        <section class="col-md-6">
+          <nz-form-item>
+            <nz-form-label>Fecha Inicio</nz-form-label>
+            <nz-form-control nzHasFeedback [nzSpan]="24" [nzErrorTip]="nameErrorBeginDate">
+              <input nz-input formControlName="dateBegin" type="date" required />
+              <ng-template #nameErrorBeginDate let-control>
+                <ng-container *ngIf="control.hasError('required')">La Fecha Inicio es obligatorio.</ng-container>
+                <ng-container *ngIf="control.hasError('pattern')">La Fecha Inicio solo deben contener
+                  números.</ng-container>
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+        </section>
+        <section class="col-md-6">
+          <nz-form-item>
+            <nz-form-label>Fecha Fin</nz-form-label>
+            <nz-form-control nzHasFeedback [nzSpan]="24" [nzErrorTip]="nameErrorBeginDate">
+              <input nz-input formControlName="dateEnd" type="date" required />
+              <ng-template #nameErrorBeginDate let-control>
+                <ng-container *ngIf="control.hasError('required')">La Fecha Inicio es obligatorio.</ng-container>
+                <ng-container *ngIf="control.hasError('pattern')">La Fecha Inicio solo deben contener
+                  números.</ng-container>
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+        </section>
+        <section class="col-md-6">
+          <nz-form-item>
+            <nz-form-label>Tipo de Trabajo</nz-form-label>
+            <nz-form-control [nzSpan]="24">
+              <nz-select formControlName="typeWork" nzPlaceHolder="Selecciona una opción"
+                [nzNotFoundContent]="'Sin resultados'">
+                <nz-option *ngFor="let option of typeworkList" [nzLabel]="option.name"
+                  [nzValue]="option.id_type_work"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </section>
+        <section class="col-md-6">
+          <nz-form-item>
+            <nz-form-label>Cliente</nz-form-label>
+            <nz-form-control [nzSpan]="24">
+              <nz-select formControlName="client" nzPlaceHolder="Selecciona una opción"
+                [nzNotFoundContent]="'Sin resultados'">
+                <nz-option *ngFor="let option of clientList" [nzLabel]="option.name"
+                  [nzValue]="option.id_client"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </section>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <nz-form-item>
+            <nz-form-control [nzSpan]="24">
+              <div class="d-flex justify-content-between align-items-center">
+                <!-- Botones BUSCAR y LIMPIAR alineados a la izquierda -->
+                <div>
+                  <button type="button" class="btn btn-primary me-2" (click)="onSubmit3()">
+                    <span nz-icon nzType="search"></span>
+                    BUSCAR
+                  </button>
+                  <button type="button" class="btn btn-danger" (click)="onClear3()">
+                    <span nz-icon nzType="delete"></span>
+                    LIMPIAR
+                  </button>
+                </div>
+                <!-- Botón EXPORTAR alineado a la derecha -->
+                <div>
+                  <button id="exportButton" nz-dropdown [nzDropdownMenu]="menu7" type="button" class="btn btn-primary">
+                    <span nz-icon nzType="export"></span>
+                    EXPORTAR
+                  </button>
+                  <nz-dropdown-menu #menu7="nzDropdownMenu">
+                    <ul nz-menu>
+                      <li nz-menu-item (click)="exportOption(7,'PDF')">Exportar como PDF</li>
+                      <li nz-menu-item (click)="exportOption(7,'Excel')">Exportar como Excel</li>
+                    </ul>
+                  </nz-dropdown-menu>
+                </div>
+              </div>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+    </form>
+    <nz-table #nzTable3 [nzData]="listOfDisplayData3" nzTableLayout="fixed" nzNoResult="Sin resultados">
+      <thead>
+        <tr>
+          <th>
+            Id Proyecto
+          </th>
+          <th>
+            Cliente
+          </th>
+          <th>
+            Tipo de Trabajo
+          </th>
+          <th>
+            Monto de Contrato
+          </th>
+          <th>
+            Monto Total Ingresos
+          </th>
+          <th>
+            Tipo de Monto
+          </th>
+          <th>
+            Fecha Inicio
+          </th>
+          <th>
+            Fecha Fin
+          </th>
+          <th>
+            Fecha de Pago
+          </th>
+          <th>
+            Fecha de Aprobación
+          </th>
+          <th>
+            Facturado
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of nzTable3.data">
+          <td>
+            {{ data.iD_PROJECT }}
+          </td>
+          <td>
+            {{ data.clienT_NAME }}
+          </td>
+          <td>
+            {{ data.typE_WORK_NAME }}
+          </td>
+          <td>
+            {{ data.contracT_MOUNT }}
+          </td>
+          <td>
+            {{ data.totaL_EARNINGS }}
+          </td>
+          <td>
+            {{ data.typE_MOUNT }}
+          </td>
+          <td>
+            {{ data.datE_BEGIN | date: 'yyyy-MM-dd' }}
+          </td>
+          <td>
+            {{ data.datE_END | date: 'yyyy-MM-dd' }}
+          </td>
+          <td>
+            {{ data.datE_EARNING | date: 'yyyy-MM-dd' }}
+          </td>
+          <td>
+            {{ data.datE_APROBATION | date: 'yyyy-MM-dd' }}
+          </td>
+          <td>
+            {{ data.pagado }}
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+
+  </app-card>
+
+  <app-card cardTitle="Reporte de Estado de Proyectos Por Sector" blockClass="pc-component">
+    <form [formGroup]="reportSector" nz-form>
+      <div class="row">
+        <section class="col-md-6">
+          <nz-form-item>
+            <nz-form-label>Fecha Inicio</nz-form-label>
+            <nz-form-control nzHasFeedback [nzSpan]="24" [nzErrorTip]="nameErrorBeginDate">
+              <input nz-input formControlName="dateBegin" type="date" required />
+              <ng-template #nameErrorBeginDate let-control>
+                <ng-container *ngIf="control.hasError('required')">La Fecha Inicio es obligatorio.</ng-container>
+                <ng-container *ngIf="control.hasError('pattern')">La Fecha Inicio solo deben contener
+                  números.</ng-container>
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+        </section>
+        <section class="col-md-6">
+          <nz-form-item>
+            <nz-form-label>Fecha Fin</nz-form-label>
+            <nz-form-control nzHasFeedback [nzSpan]="24" [nzErrorTip]="nameErrorBeginDate">
+              <input nz-input formControlName="dateEnd" type="date" required />
+              <ng-template #nameErrorBeginDate let-control>
+                <ng-container *ngIf="control.hasError('required')">La Fecha Inicio es obligatorio.</ng-container>
+                <ng-container *ngIf="control.hasError('pattern')">La Fecha Inicio solo deben contener
+                  números.</ng-container>
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+        </section>
+        <section class="col-md-6">
+          <nz-form-item>
+            <nz-form-label>Sector</nz-form-label>
+            <nz-form-control [nzSpan]="24">
+              <nz-select formControlName="sector" nzPlaceHolder="Selecciona una opción"
+                [nzNotFoundContent]="'Sin resultados'">
+                <nz-option *ngFor="let option of sector" [nzLabel]="option.label" [nzValue]="option.value"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </section>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <nz-form-item>
+            <nz-form-control [nzSpan]="24">
+              <div class="d-flex justify-content-between align-items-center">
+                <!-- Botones BUSCAR y LIMPIAR alineados a la izquierda -->
+                <div>
+                  <button type="button" class="btn btn-primary me-2" (click)="onSubmitSector()">
+                    <span nz-icon nzType="search"></span>
+                    BUSCAR
+                  </button>
+                  <button type="button" class="btn btn-danger" (click)="onClearReportSector()">
+                    <span nz-icon nzType="delete"></span>
+                    LIMPIAR
+                  </button>
+                </div>
+                <!-- Botón EXPORTAR alineado a la derecha -->
+                <div>
+                  <button id="exportButton" nz-dropdown [nzDropdownMenu]="menu9" type="button" class="btn btn-primary">
+                    <span nz-icon nzType="export"></span>
+                    EXPORTAR
+                  </button>
+                  <nz-dropdown-menu #menu9="nzDropdownMenu">
+                    <ul nz-menu>
+                      <li nz-menu-item (click)="exportOption(9,'PDF')">Exportar como PDF</li>
+                      <li nz-menu-item (click)="exportOption(9,'Excel')">Exportar como Excel</li>
+                    </ul>
+                  </nz-dropdown-menu>
+                </div>
+              </div>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+    </form>
+    <nz-table #nzTableSector [nzData]="listOfDataSector" nzTableLayout="fixed" nzNoResult="Sin resultados">
+      <thead>
+        <tr>
+          <th>
+            Id Proyecto
+          </th>
+          <th>
+            Cliente
+          </th>
+          <th>
+            Tipo de Trabajo
+          </th>
+          <th>
+            Monto de Contrato
+          </th>
+          <th>
+            Monto Total Ingresos
+          </th>
+          <th>
+            Tipo de Monto
+          </th>
+          <th>
+            Fecha Inicio
+          </th>
+          <th>
+            Fecha Fin
+          </th>
+          <th>
+            Fecha de Pago
+          </th>
+          <th>
+            Fecha de Aprobación
+          </th>
+          <th>
+            Facturado
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of nzTableSector.data">
+          <td>
+            {{ data.iD_PROJECT }}
+          </td>
+          <td>
+            {{ data.clienT_NAME }}
+          </td>
+          <td>
+            {{ data.typE_WORK_NAME }}
+          </td>
+          <td>
+            {{ data.contracT_MOUNT }}
+          </td>
+          <td>
+            {{ data.totaL_EARNINGS }}
+          </td>
+          <td>
+            {{ data.typE_MOUNT }}
+          </td>
+          <td>
+            {{ data.datE_BEGIN | date: 'yyyy-MM-dd' }}
+          </td>
+          <td>
+            {{ data.datE_END | date: 'yyyy-MM-dd' }}
+          </td>
+          <td>
+            {{ data.datE_EARNING | date: 'yyyy-MM-dd' }}
+          </td>
+          <td>
+            {{ data.datE_APROBATION | date: 'yyyy-MM-dd' }}
+          </td>
+          <td>
+            {{ data.pagado }}
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+
+  </app-card>
+
+</div>

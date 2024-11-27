@@ -1,0 +1,58 @@
+<div class="row">
+  <div class="col-sm-12">
+    <app-card cardTitle="Bitácoras del Sistema" blockClass="pc-component">
+      <nz-table #nzTable [nzData]="listOfDisplayData" nzTableLayout="fixed" nzNoResult="Sin resultados">
+        <thead>
+          <tr>
+            <th nzCustomFilter>
+              Usuario
+              <nz-filter-trigger [(nzVisible)]="visible" [nzActive]="searchValue.length > 0" [nzDropdownMenu]="menu">
+                <span nz-icon nzType="search"></span>
+              </nz-filter-trigger>
+            </th>
+            <th>
+              Descripción
+            </th>
+            <th>
+              Fecha
+            </th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of nzTable.data">
+            <td>
+              <div>
+                {{ data.user }}
+              </div>
+            </td>
+
+            <td>
+              <div>
+                {{ data.description }}
+              </div>
+            </td>
+
+            <td>
+              <div>
+                {{ data.date | date: 'yyyy-MM-dd' }}
+              </div>
+            </td>
+
+          </tr>
+        </tbody>
+
+
+      </nz-table>
+      <nz-dropdown-menu #menu="nzDropdownMenu">
+        <div class="ant-table-filter-dropdown">
+          <div class="search-box">
+            <input type="text" nz-input placeholder="Buscar usuario" [(ngModel)]="searchValue" />
+            <button nz-button nzSize="small" nzType="primary" (click)="search()" class="search-button">Buscar</button>
+            <button nz-button nzSize="small" (click)="reset()">Borrar</button>
+          </div>
+        </div>
+      </nz-dropdown-menu>
+    </app-card>
+  </div>
+</div>

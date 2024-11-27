@@ -1,0 +1,42 @@
+<div class="auth-main">
+  <div class="auth-wrapper v3">
+    <div class="auth-form">
+      <div class="auth-header">
+        <a href="javascript:"><img src="assets/images/authentication/logo.png" alt="logo" class="img-fluid" /></a>
+      </div>
+      <div class="card my-5">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-end mb-4">
+            <h3 class="mb-0"><b>Inicio de Sesión</b></h3>
+          </div>
+          <form [formGroup]="loginForm" (ngSubmit)="logIn()">
+            <div class="form-group mb-3">
+              <label class="form-label" for="email">Correo electrónico</label>
+              <input type="email" class="form-control" formControlName="email" placeholder="Ingrese su email"
+                required />
+            </div>
+            <div class="form-group mb-3">
+              <label class="form-label" for="password">Contraseña</label>
+              <input type="password" class="form-control" formControlName="password" placeholder="Ingrese su contraseña"
+                required />
+            </div>
+            <div class="d-grid mt-4">
+              <button type="submit" class="btn btn-primary">INGRESAR</button>
+              <button type="button" class="btn btn-danger mt-2" (click)="resetForm()">
+                BORRAR
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="auth-footer row">
+        <div class="col my-1">
+          <p class="m-0"> Copyright &copy; Despacho Carvajal & Colegiados </p>
+        </div>
+        <div class="col-auto my-1">
+          <p class="m-0"> Sistema de Control de Ingresos - 2024 </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

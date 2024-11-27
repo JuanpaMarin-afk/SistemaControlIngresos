@@ -1,0 +1,79 @@
+/* SCRIPT PARA LA CREACIÓN DE PROCEDIMIENTOS PARA TYPE WORK */
+
+USE SISTEMA_CONTROL_INGRESOS;
+
+/* PROCEDIMIENTO PARA LISTAR TODOS LOS TYPE WORK */
+DELIMITER //
+
+CREATE PROCEDURE SelectAllTypeWork()
+BEGIN
+    SELECT ID_TYPE_WORK, NAME, STATUS  FROM type_work;
+END;
+//
+
+DELIMITER ;
+
+/* PROCEDIMIENTO PARA LISTAR TYPE WORK POR ID */
+DELIMITER //
+
+CREATE PROCEDURE SelectByIdTypeWork(IN Id INT)
+BEGIN
+    SELECT ID_TYPE_WORK, NAME, STATUS  FROM type_work
+    WHERE ID_TYPE_WORK = Id;
+END;
+//
+
+DELIMITER ;
+
+/* PROCEDIMIENTO PARA INSERTAR TYPE WORK */
+DELIMITER //
+
+CREATE PROCEDURE InsertTypeWork(IN Name VARCHAR(255), IN Status VARCHAR(50))
+BEGIN
+    INSERT INTO type_work (NAME, STATUS)
+        VALUES (Name, 'Active');
+END;
+//
+
+DELIMITER ;
+
+/* PROCEDIMIENTO PARA ACTUALIZAR TYPE WORK */
+DELIMITER //
+
+CREATE PROCEDURE UpdateTypeWork(IN Id INT, IN Name VARCHAR(255), IN Status VARCHAR(50))
+BEGIN
+    UPDATE type_work
+    SET NAME = Name, STATUS = Status
+    WHERE ID_TYPE_WORK = Id;
+END;
+//
+
+DELIMITER ;
+
+/* PROCEDIMIENTO PARA CAMBIAR EL STATUS DE TYPE WORK */
+DELIMITER //
+
+CREATE PROCEDURE ToggleTypeWorkStatus(IN Id INT)
+BEGIN
+    DECLARE CurrentStatus VARCHAR(50);
+
+    -- Obtener el estado actual
+    SELECT STATUS INTO CurrentStatus
+    FROM type_work
+    WHERE ID_TYPE_WORK = Id;
+
+    -- Cambiar el estado a 'Desactivado' si es 'Activado', y viceversa
+    IF CurrentStatus = 'Active' THEN
+        UPDATE type_work
+        SET STATUS = 'Disabled'
+        WHERE ID_TYPE_WORK = Id;
+    ELSEIF CurrentStatus = 'Disabled' THEN
+        UPDATE type_work
+        SET STATUS = 'Active'
+        WHERE ID_TYPE_WORK = Id;
+    END IF;
+
+END;
+//
+
+DELIMITER ;

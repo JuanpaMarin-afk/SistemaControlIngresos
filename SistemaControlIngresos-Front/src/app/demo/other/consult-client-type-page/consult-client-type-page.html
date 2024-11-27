@@ -1,0 +1,143 @@
+<div class="row">
+  <div class="col-sm-12" *ngIf="rol !== 'Consultor'">
+    <app-card cardTitle="Ingresar un Tipo de Cliente" blockClass="pc-component">
+      <blockquote class="blockquote text-left">
+        <p class="mb-0">Por favor, complete el siguiente formulario para agregar un nuevo tipo de cliente. Asegúrese de
+          ingresar el nombre
+          completo del registro en el campo proporcionado.</p>
+      </blockquote>
+
+      <form [formGroup]="clientTypeForm" nz-form>
+        <nz-form-item>
+          <nz-form-label>Nombre</nz-form-label>
+          <nz-form-control nzHasFeedback [nzSpan]="12" [nzErrorTip]="nameErrorTpl">
+            <input nz-input formControlName="name" required />
+            <ng-template #nameErrorTpl let-control>
+              <ng-container *ngIf="control.hasError('required')">El nombre debe ser obligatorio.</ng-container>
+              <ng-container *ngIf="control.hasError('pattern')">El nombre solo debe contener letras y
+                espacios.</ng-container>
+            </ng-template>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-control [nzOffset]="7" [nzSpan]="12">
+            <button type="button" class="btn btn-primary" (click)="onSubmit()">
+              <span nz-icon nzType="form"></span>
+              REGISTRAR
+            </button>
+            <button type="button" class="btn btn-danger" (click)="onClear()">
+              <span nz-icon nzType="delete"></span>
+              BORRAR
+            </button>
+          </nz-form-control>
+        </nz-form-item>
+      </form>
+
+    </app-card>
+  </div>
+</div>
+
+<div class="row" *ngIf="rol !== 'Consultor'">
+  <div class="col-sm-12">
+    <app-card cardTitle="Buscador de Tipo de Cliente" blockClass="pc-component">
+      <nz-table #nzTable [nzData]="listOfDisplayData" nzTableLayout="fixed" nzNoResult="Sin resultados">
+        <thead>
+          <tr>
+            <th nzCustomFilter>
+              Nombre
+              <nz-filter-trigger [(nzVisible)]="visible" [nzActive]="searchValue.length > 0" [nzDropdownMenu]="menu">
+                <span nz-icon nzType="search"></span>
+              </nz-filter-trigger>
+            </th>
+            <th>
+              Estado
+            </th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of nzTable.data">
+            <td>
+              <div>
+                <button nz-button nzType="primary" (click)="editClientType(data.id_type)">
+                  <span nz-icon nzType="edit"></span>
+                </button>
+                {{ data.name }}
+              </div>
+            </td>
+
+            <td *ngIf="data.status === 'Active'">
+              <button type="button" class="btn btn-success"
+                (click)="toggleAttendantStatusButton(data.id_type, data.status, data.name)">
+                <span nz-icon nzType="check"></span>
+                Habilitado
+              </button>
+            </td>
+
+            <td *ngIf="data.status === 'Disabled'">
+              <button type="button" class="btn btn-warning"
+                (click)="toggleAttendantStatusButton(data.id_type, data.status, data.name)">
+                <span nz-icon nzType="exclamation-circle"></span>
+                Deshabilitado
+              </button>
+            </td>
+
+          </tr>
+        </tbody>
+
+
+      </nz-table>
+      <nz-dropdown-menu #menu="nzDropdownMenu">
+        <div class="ant-table-filter-dropdown">
+          <div class="search-box">
+            <input type="text" nz-input placeholder="Buscar nombre" [(ngModel)]="searchValue" />
+            <button nz-button nzSize="small" nzType="primary" (click)="search()" class="search-button">Buscar</button>
+            <button nz-button nzSize="small" (click)="reset()">Borrar</button>
+          </div>
+        </div>
+      </nz-dropdown-menu>
+    </app-card>
+  </div>
+</div>
+
+
+<div class="row" *ngIf="rol === 'Consultor'">
+  <div class="col-sm-12">
+    <app-card cardTitle="Buscador de Tipo de Cliente" blockClass="pc-component">
+      <nz-table #nzTable [nzData]="listOfDisplayData" nzTableLayout="fixed" nzNoResult="Sin resultados">
+        <thead>
+          <tr>
+            <th nzCustomFilter>
+              Nombre
+              <nz-filter-trigger [(nzVisible)]="visible" [nzActive]="searchValue.length > 0" [nzDropdownMenu]="menu">
+                <span nz-icon nzType="search"></span>
+              </nz-filter-trigger>
+            </th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of nzTable.data">
+            <td>
+              <div>
+                {{ data.name }}
+              </div>
+            </td>
+
+          </tr>
+        </tbody>
+
+
+      </nz-table>
+      <nz-dropdown-menu #menu="nzDropdownMenu">
+        <div class="ant-table-filter-dropdown">
+          <div class="search-box">
+            <input type="text" nz-input placeholder="Buscar nombre" [(ngModel)]="searchValue" />
+            <button nz-button nzSize="small" nzType="primary" (click)="search()" class="search-button">Buscar</button>
+            <button nz-button nzSize="small" (click)="reset()">Borrar</button>
+          </div>
+        </div>
+      </nz-dropdown-menu>
+    </app-card>
+  </div>
+</div>

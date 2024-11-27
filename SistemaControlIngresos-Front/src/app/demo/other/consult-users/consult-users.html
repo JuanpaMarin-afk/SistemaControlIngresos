@@ -1,0 +1,159 @@
+<div class="row">
+  <div class="col-sm-12">
+    <app-card cardTitle="Ingresar un Usuario" blockClass="pc-component">
+      <blockquote class="blockquote text-left">
+        <p class="mb-0">Por favor, complete el siguiente formulario para agregar un nuevo usuario.</p>
+      </blockquote>
+
+      <form [formGroup]="clientTypeForm" nz-form>
+        <nz-form-item>
+          <nz-form-label>Email</nz-form-label>
+          <nz-form-control nzHasFeedback [nzSpan]="12" [nzErrorTip]="nameErrorTpl">
+            <input nz-input formControlName="email" required />
+            <ng-template #nameErrorTpl let-control>
+              <ng-container *ngIf="control.hasError('required')">El nombre debe ser obligatorio.</ng-container>
+              <ng-container *ngIf="control.hasError('pattern')">El nombre solo debe contener letras y
+                espacios.</ng-container>
+            </ng-template>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label>Password</nz-form-label>
+          <nz-form-control nzHasFeedback [nzSpan]="12" [nzErrorTip]="nameErrorTpl">
+            <input nz-input formControlName="password" type="password" required />
+            <ng-template #nameErrorTpl let-control>
+              <ng-container *ngIf="control.hasError('required')">El nombre debe ser obligatorio.</ng-container>
+              <ng-container *ngIf="control.hasError('pattern')">El nombre solo debe contener letras y
+                espacios.</ng-container>
+            </ng-template>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label>Puesto</nz-form-label>
+          <nz-form-control nzHasFeedback [nzSpan]="12" [nzErrorTip]="nameErrorTpl">
+            <input nz-input formControlName="puesto" required />
+            <ng-template #nameErrorTpl let-control>
+              <ng-container *ngIf="control.hasError('required')">El nombre debe ser obligatorio.</ng-container>
+              <ng-container *ngIf="control.hasError('pattern')">El nombre solo debe contener letras y
+                espacios.</ng-container>
+            </ng-template>
+          </nz-form-control>
+        </nz-form-item>
+
+        <section class="col-md-6">
+          <nz-form-item>
+            <nz-form-label>Rol en el Sistema</nz-form-label>
+            <nz-form-control [nzSpan]="24">
+              <nz-select formControlName="rol" nzPlaceHolder="Selecciona una opción">
+                <nz-option *ngFor="let role of roles" [nzLabel]="role.label" [nzValue]="role.value"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </section>
+
+        <nz-form-item>
+          <nz-form-control [nzOffset]="7" [nzSpan]="12">
+            <button type="button" class="btn btn-primary" (click)="onSubmit()">
+              <span nz-icon nzType="form"></span>
+              REGISTRAR
+            </button>
+            <button type="button" class="btn btn-danger" (click)="onClear()">
+              <span nz-icon nzType="delete"></span>
+              BORRAR
+            </button>
+          </nz-form-control>
+        </nz-form-item>
+      </form>
+
+    </app-card>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <app-card cardTitle="Buscador de Usuarios" blockClass="pc-component">
+      <nz-table #nzTable [nzData]="listOfDisplayData" nzTableLayout="fixed" nzNoResult="Sin resultados">
+        <thead>
+          <tr>
+            <th nzCustomFilter>
+              Email
+              <nz-filter-trigger [(nzVisible)]="visible" [nzActive]="searchValue.length > 0" [nzDropdownMenu]="menu">
+                <span nz-icon nzType="search"></span>
+              </nz-filter-trigger>
+            </th>
+            <th>
+              Contraseña
+            </th>
+            <th>
+              Puesto
+            </th>
+
+            <th>
+              Rol
+            </th>
+            <th>
+              Estado
+            </th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of nzTable.data">
+            <td>
+              <div>
+                <button nz-button nzType="primary" (click)="editClientType(data.id_user)">
+                  <span nz-icon nzType="edit"></span>
+                </button>
+                {{ data.email }}
+              </div>
+            </td>
+            <td>
+              ********
+            </td>
+            <td>
+              <div>
+                {{ data.job }}
+              </div>
+            </td>
+
+            <td>
+              <div>
+                {{ data.rol }}
+              </div>
+            </td>
+
+            <td *ngIf="data.status === 'Active'">
+              <button type="button" class="btn btn-success"
+                (click)="toggleAttendantStatusButton(data.id_user, data.status, data.email)">
+                <span nz-icon nzType="check"></span>
+                Habilitado
+              </button>
+            </td>
+
+            <td *ngIf="data.status === 'Disabled'">
+              <button type="button" class="btn btn-warning"
+                (click)="toggleAttendantStatusButton(data.id_user, data.status, data.email)">
+                <span nz-icon nzType="exclamation-circle"></span>
+                Deshabilitado
+              </button>
+            </td>
+
+          </tr>
+        </tbody>
+
+
+      </nz-table>
+      <nz-dropdown-menu #menu="nzDropdownMenu">
+        <div class="ant-table-filter-dropdown">
+          <div class="search-box">
+            <input type="text" nz-input placeholder="Buscar email" [(ngModel)]="searchValue" />
+            <button nz-button nzSize="small" nzType="primary" (click)="search()" class="search-button">Buscar</button>
+            <button nz-button nzSize="small" (click)="reset()">Borrar</button>
+          </div>
+        </div>
+      </nz-dropdown-menu>
+    </app-card>
+  </div>
+</div>

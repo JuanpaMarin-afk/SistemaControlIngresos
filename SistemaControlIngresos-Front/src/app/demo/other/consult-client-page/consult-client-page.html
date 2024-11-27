@@ -1,0 +1,215 @@
+<div class="row">
+  <div class="col-sm-12" *ngIf="rol !== 'Consultor'">
+    <app-card cardTitle="Ingresar un Cliente" blockClass="pc-component">
+      <blockquote class="blockquote text-left">
+        <p class="mb-0">Por favor, complete el siguiente formulario para agregar un nuevo cliente. Asegúrese de
+          ingresar el nombre, tipo de cliente y de seleccionar el sector y tipo de cliente para el
+          correcto registro en los campo proporcionados.</p>
+      </blockquote>
+
+      <form [formGroup]="clientForm" nz-form>
+        <div class="row">
+          <div class="col-md-6">
+            <nz-form-item>
+              <nz-form-label>Nombre</nz-form-label>
+              <nz-form-control nzHasFeedback [nzSpan]="24" [nzErrorTip]="nameErrorTpl">
+                <input nz-input formControlName="name" required />
+                <ng-template #nameErrorTpl let-control>
+                  <ng-container *ngIf="control.hasError('required')">El nombre debe ser
+                    obligatorio.</ng-container>
+                  <ng-container *ngIf="control.hasError('pattern')">El nombre solo debe contener letras y
+                    espacios.</ng-container>
+                </ng-template>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div class="col-md-6">
+            <nz-form-item>
+              <nz-form-label>Cédula Jurídica</nz-form-label>
+              <nz-form-control nzHasFeedback [nzSpan]="24" [nzErrorTip]="nameErrorLegalId">
+                <input nz-input formControlName="legal_id" required />
+                <ng-template #nameErrorLegalId let-control>
+                  <ng-container *ngIf="control.hasError('required')">La cédula jurídica es obligatoria.</ng-container>
+                  <ng-container *ngIf="control.hasError('pattern')">La cédula jurídica solo debe contener
+                    números.</ng-container>
+                </ng-template>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <nz-form-item>
+              <nz-form-label>Sector</nz-form-label>
+              <nz-form-control [nzSpan]="24">
+                <nz-select formControlName="sector" nzPlaceHolder="Selecciona una opción">
+                  <nz-option *ngFor="let option of sector" [nzLabel]="option.label"
+                    [nzValue]="option.value"></nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div class="col-md-6">
+            <nz-form-item>
+              <nz-form-label>Tipo de Cliente</nz-form-label>
+              <nz-form-control [nzSpan]="24">
+                <nz-select formControlName="typeClient" nzPlaceHolder="Selecciona una opción">
+                  <nz-option *ngFor="let option of typeClientList" [nzLabel]="option.name"
+                    [nzValue]="option.id_type"></nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6 offset-md-3">
+            <nz-form-item>
+              <nz-form-control [nzSpan]="24">
+                <button type="button" class="btn btn-primary" (click)="onSubmit()">
+                  <span nz-icon nzType="form"></span>
+                  REGISTRAR
+                </button>
+                <button type="button" class="btn btn-danger" (click)="onClear()">
+                  <span nz-icon nzType="delete"></span>
+                  BORRAR
+                </button>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+      </form>
+    </app-card>
+  </div>
+</div>
+
+<div class="row" *ngIf="rol !== 'Consultor'">
+  <div class="col-sm-12">
+    <app-card cardTitle="Buscador de Clientes" blockClass="pc-component">
+      <nz-table #nzTable [nzData]="listOfDisplayData" nzTableLayout="fixed" nzNoResult="Sin resultados">
+        <thead>
+          <tr>
+            <th nzCustomFilter>
+              Nombre
+              <nz-filter-trigger [(nzVisible)]="visible" [nzActive]="searchValue.length > 0" [nzDropdownMenu]="menu">
+                <span nz-icon nzType="search"></span>
+              </nz-filter-trigger>
+            </th>
+            <th>
+              Cédula Jurídica
+            </th>
+            <th>
+              Tipo de Cliente
+            </th>
+            <th>
+              Sector
+            </th>
+            <th>
+              Estado
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of nzTable.data">
+            <td>
+              <div>
+                <button nz-button nzType="primary" (click)="editClient(data.id_client)">
+                  <span nz-icon nzType="edit"></span>
+                </button>
+                {{ data.name }}
+              </div>
+            </td>
+            <td>
+              {{ data.legal_id }}
+            </td>
+            <td>
+              {{ data.name_type }}
+            </td>
+            <td>
+              {{ data.sector }}
+            </td>
+            <td *ngIf="data.status === 'Active'">
+              <button type="button" class="btn btn-success"
+                (click)="toggleAttendantStatusButton(data.id_client, data.status, data.name)">
+                <span nz-icon nzType="check"></span>
+                Habilitado
+              </button>
+            </td>
+            <td *ngIf="data.status === 'Disabled'">
+              <button type="button" class="btn btn-warning"
+                (click)="toggleAttendantStatusButton(data.id_client, data.status, data.name)">
+                <span nz-icon nzType="exclamation-circle"></span>
+                Deshabilitado
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+      <nz-dropdown-menu #menu="nzDropdownMenu">
+        <div class="ant-table-filter-dropdown">
+          <div class="search-box">
+            <input type="text" nz-input placeholder="Buscar nombre" [(ngModel)]="searchValue" />
+            <button nz-button nzSize="small" nzType="primary" (click)="search()" class="search-button">Buscar</button>
+            <button nz-button nzSize="small" (click)="reset()">Borrar</button>
+          </div>
+        </div>
+      </nz-dropdown-menu>
+    </app-card>
+  </div>
+</div>
+
+<div class="row" *ngIf="rol === 'Consultor'">
+  <div class="col-sm-12">
+    <app-card cardTitle="Buscador de Clientes" blockClass="pc-component">
+      <nz-table #nzTable [nzData]="listOfDisplayData" nzTableLayout="fixed" nzNoResult="Sin resultados">
+        <thead>
+          <tr>
+            <th nzCustomFilter>
+              Nombre
+              <nz-filter-trigger [(nzVisible)]="visible" [nzActive]="searchValue.length > 0" [nzDropdownMenu]="menu">
+                <span nz-icon nzType="search"></span>
+              </nz-filter-trigger>
+            </th>
+            <th>
+              Cédula Jurídica
+            </th>
+            <th>
+              Tipo de Cliente
+            </th>
+            <th>
+              Sector
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of nzTable.data">
+            <td>
+              <div>
+                {{ data.name }}
+              </div>
+            </td>
+            <td>
+              {{ data.legal_id }}
+            </td>
+            <td>
+              {{ data.name_type }}
+            </td>
+            <td>
+              {{ data.sector }}
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+      <nz-dropdown-menu #menu="nzDropdownMenu">
+        <div class="ant-table-filter-dropdown">
+          <div class="search-box">
+            <input type="text" nz-input placeholder="Buscar nombre" [(ngModel)]="searchValue" />
+            <button nz-button nzSize="small" nzType="primary" (click)="search()" class="search-button">Buscar</button>
+            <button nz-button nzSize="small" (click)="reset()">Borrar</button>
+          </div>
+        </div>
+      </nz-dropdown-menu>
+    </app-card>
+  </div>
+</div>
