@@ -75,7 +75,7 @@ BEGIN
         -- Comparar las contraseñas
         IF v_DecryptedPassword = p_Password THEN
             -- Obtener otros detalles del usuario
-            SELECT ID_USER, JOB, GENDER, STATUS 
+            SELECT ID_USER, JOB, ROL, STATUS 
             INTO v_ID_USER, v_JOB, v_ROL, v_STATUS
             FROM USERS 
             WHERE EMAIL = p_Email;
